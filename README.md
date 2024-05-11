@@ -254,6 +254,8 @@ Change `/dinov2/dinov2/train/train.py` to include the following line in the arg 
 
 `parser.add_argument("--local-rank", default=0, type=int, help="Variable for distributed computing.")`
 
+![Change argparser](./docs/img/change_arg_parser.PNG)
+
 ### 7.2 Install package
 
 Then, we need to install the DinoV2 package so the modules can run properly
