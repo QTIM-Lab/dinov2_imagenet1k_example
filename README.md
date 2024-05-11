@@ -224,6 +224,7 @@ We need to create a new .yaml file with the following content:
 ```yaml
 # this corresponds to the default config
 # Remember to change the path to root and extra, unless they are actually at /data/root and /data/extra
+# I have tested this configuration with a 16GB GPU
 train:
   dataset_path: ImageNet:split=TRAIN:root=/data/root:extra=/data/extra
   batch_size_per_gpu: 8
@@ -233,7 +234,7 @@ student:
 
 I have already created this .yaml in this repo, so we can just copy it over to the configs folder in the DinoV2 repo:
 
-Remember to first, change the path to the root and extra folders in the YAML, unless they are actually at /data/root and /data/extra
+Remember to first change the path to the root and extra folders in the YAML, unless they are actually at /data/root and /data/extra
 
 Then, change the paths in the copy command below to the path to this repo and the dinov2_repo
 
