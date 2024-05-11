@@ -50,7 +50,7 @@ We should most likely investigate how to solve this issue in the future because 
 
 ### 2.2 Set up python with Pip
 
-In either a conda environemnt, or any other python environment, use pip to install the requirements.txt
+In either a conda environment, or any other python environment, use pip to install the requirements.txt
 
 ```sh
 pip install -U -r requirements.txt
