@@ -96,7 +96,7 @@ The provided dataset implementation expects a few additional metadata files to b
 - `<EXTRA>/entries-TRAIN.npy`
 - `<EXTRA>/entries-VAL.npy`
 
-Assuming you want to store everything in some folder called /data:
+Assuming you want to store everything in some folder called `/data`:
 
 All you need to have is:
 
