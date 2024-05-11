@@ -186,7 +186,7 @@ python /path/to/dinov2/scripts/get_extra.py \
 
 This will create the "extra" files and create the /data/extra contents that are needed
 
-## 5. Get images counts of the dataset
+## 5. Get images counts of the dataset and fix dataset.py file
 
 The dataset python file for DinoV2 for the ImageNet dataset requires you to input the counts of number of images for each group to be manually inputted. I create a script that counts the number of images, but you can also probably just copy and paste the values if you use the same dataset as me
 
@@ -207,9 +207,9 @@ For example, when I run it, I get the following (though you should probably run 
 - Val: 3923
 - Test: 10 (I just manually loaded 10 so entered this value)
 
-## 6. Fix the dataset.py file (dinov2/dinov2/data/datasets/image_net.py)
+### 5.1 Fix the dataset.py file (dinov2/dinov2/data/datasets/image_net.py)
 
-Again, because their dataset.py (`dinov2/dinov2/data/datasets/image_net.py`) file expects the original ImageNet 1k dataset, and we want to use a tiny version so it doesn't take forever to download, we need to change 3 lines of code on that script:
+Again, because their dataset.py (`dinov2/dinov2/data/datasets/image_net.py`) file expects the original ImageNet 1k dataset, and we want to use a tiny version so it doesn't take forever to download, we need to change 3 lines of code on that script to include the image counts for each dataset:
 
 ![Change dataset](./docs/img/change_dataset.PNG)
 
