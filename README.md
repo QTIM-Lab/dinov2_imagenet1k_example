@@ -1,19 +1,19 @@
 # Reproducible Steps to Run DinoV2 on (smaller version of) ImageNet 1k
 
-The steps below allow you to train DinoV2 on ImageNet, to get a hang of how to use the architecture in isolation on a toy dataset.
+The steps below allow you to train DinoV2 on ImageNet, to get a hang of how to use the architecture in isolation on a toy dataset
 
 I will assume you have already cloned this repo on the server to run some of the scripts mentioned in here (or can just upload the scripts and run them somehow):
 
 TODO:
 ```sh
-git clone ...
+git clone https://github.com/QTIM-Lab/dinov2_imagenet1k_example.git
 ```
 
 ## 1. Clone the DinoV2 Repo
 
 The DinoV2 repo is publicly available at the webpage: [https://github.com/facebookresearch/dinov2](https://github.com/facebookresearch/dinov2)
 
-On the server, clone the DinoV2
+On the server, clone the DinoV2 repo:
 
 ```sh
 git clone https://github.com/facebookresearch/dinov2.git
@@ -41,7 +41,7 @@ Just create an empty conda environment, and then enter the environment and perfo
 
 ```sh
 # You can name it anything, doesn't have to be "dinov2"
-conda create --name dinvo2
+conda create --name dinvo2 python=3.9
 conda activate dinov2
 pip install --upgrade pip
 # ... then follow the "2.2 Set up python with Pip" instructions below
@@ -154,6 +154,7 @@ Because the DinoV2 code requires you to have the labels.txt with commas separate
 You can run the simple .py file I created to convert to proper format, `fix_labels.py`
 
 ```sh
+cd /path/to/dinov2_imagenet1k_example
 python fix_labels.py
 ```
 
@@ -161,7 +162,24 @@ This will create a file labels.txt, and you should put the file on the server at
 
 You should now have a proper `/data/root/labels.txt` file on the server
 
-## 4. Get images counts of the dataset
+## 4. Get the "Extra" files
+
+The DinoV2 requires some extra files. They provide a script to get them, and I also have the script in the repo. But the script needs to be inside of the DinoV2 repo, so we first move it and then run it
+
+Remember to change the path to the root and extra folder, unless you actually have it at `/data/...`
+
+```sh
+# move/copy the script into DinoV2 repo
+cp /path/to/dinov2_imagenet1k_example/get_extra.py /path/to/dinov2/scripts
+# run their given python script to get the "extra" files
+python /path/to/dinov2/scripts/get_extra.py \
+    --root /data/root \
+    --extra /data/extra
+```
+
+This will create the "extra" files and create the /data/extra contents that are needed
+
+## 5. Get images counts of the dataset
 
 The dataset python file for DinoV2 for the ImageNet dataset requires you to input the counts of number of images for each group to be manually inputted. I create a script that counts the number of images, but you can also probably just copy and paste the values if you use the same dataset as me
 
@@ -178,12 +196,72 @@ Replace /data/root/... with the path to the actual folders, though it should pro
 This should get you the image counts for this mini-ImageNet 1k dataset:
 
 For example, when I run it, I get the following (though you should probably run it too just to double check):
-- Train: ...
-- Val: ...
-- Test:  ...
+- Train: 34745
+- Val: 3923
+- Test: 10 (I just manually loaded 10 so entered this value)
 
 ## 6. Fix the dataset.py file (dinov2/dinov2/data/datasets/image_net.py)
 
 Again, because their dataset.py (`dinov2/dinov2/data/datasets/image_net.py`) file expects the original ImageNet 1k dataset, and we want to use a tiny version so it doesn't take forever to download, we need to change 3 lines of code on that script:
 
-TODO:
+![Change dataset](./docs/img/change_dataset.PNG)
+
+## 7. Fix the training YAML
+
+The DinoV2 uses .yaml files to control configurations. We need to slightly adjust their simple yaml to run this example
+
+We need to create a new .yaml file with the following content:
+
+```yaml
+# this corresponds to the default config
+# Remember to change the path to root and extra, unless they are actually at /data/root and /data/extra
+train:
+  dataset_path: ImageNet:split=TRAIN:root=/data/root:extra=/data/extra
+  batch_size_per_gpu: 8
+student:
+  block_chunks: 4
+```
+
+I have already created this .yaml in this repo, so we can just copy it over to the configs folder in the DinoV2 repo:
+
+Remember to first, change the path to the root and extra folders in the YAML, unless they are actually at /data/root and /data/extra
+
+Then, change the paths in the copy command below to the path to this repo and the dinov2_repo
+
+```sh
+cp /path/to/dinov2_imagenet1k_example/example.yaml /path/to/dinov2_repo/dinov2/dinov2/configs/train
+```
+
+## 8. Run training
+
+### 8.1 Fix their train script
+
+There is one change we need to make since we don't run on a SLURM environment:
+
+[credit](https://github.com/facebookresearch/dinov2/issues/161)
+
+Change `/dinov2/dinov2/train/train.py` to include the following line in the arg parser:
+
+`parser.add_argument("--local-rank", default=0, type=int, help="Variable for distributed computing.")`
+
+### 8.2 Install package
+
+Then, we need to install the DinoV2 package so the modules can run properly
+
+```sh
+pip install -e .
+```
+
+### 8.3 Launch train script
+
+Fix the path to the YAML file that you created in step 7. For example, if you have the Dinov2 repo in /home/user, it might be: `/home/user/dinov2/dinov2/configs/train/example.yaml`
+
+Also, set a path to outputs wherever you would like to save them, so change it from `/path/to/outputs` to your desired output location
+
+```sh
+python -m torch.distributed.launch --nproc_per_node=1 dinov2/train/train.py --config-file=/home/user/dinov2/dinov2/configs/train/example.yaml --output-dir=/path/to/outputs
+```
+
+Note you could play around with nproc_per_node and other variables if you want
+
+Let me know if you have any issues!

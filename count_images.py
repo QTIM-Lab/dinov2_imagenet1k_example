@@ -27,8 +27,8 @@ def parse_args():
         argparse.Namespace: The parsed arguments.
     """
     parser = argparse.ArgumentParser(description="Count image files in folders.")
-    parser.add_argument("train_folder", help="Path to the train folder")
-    parser.add_argument("val_folder", help="Path to the validation folder")
+    parser.add_argument("--train_folder", help="Path to the train folder")
+    parser.add_argument("--val_folder", help="Path to the validation folder")
     return parser.parse_args()
 
 def main():
