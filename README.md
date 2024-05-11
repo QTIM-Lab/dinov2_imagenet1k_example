@@ -124,7 +124,7 @@ You will then have `/data/root/train/...`, and `/data/root/val/...` ready
 
 Download some individual images from here: https://www.kaggle.com/c/imagenet-object-localization-challenge/data 
 
-go to data explorer > ILSVRC > Data > test > ... and I just downloaded 10 random test files (I see they have the same filename type as provided in DinoV2 docs)
+go to data explorer > ILSVRC > Data > CLS-LOC > test > ... and I just downloaded 10 random test files (I see they have the same filename type as provided in DinoV2 docs)
 
 Then, create a `/data/root/test` folder:
 
