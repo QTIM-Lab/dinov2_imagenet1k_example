@@ -4,7 +4,6 @@ The steps below allow you to train DinoV2 on ImageNet, to get a hang of how to u
 
 I will assume you have already cloned this repo on the server to run some of the scripts mentioned in here (or can just upload the scripts and run them somehow):
 
-TODO:
 ```sh
 git clone https://github.com/QTIM-Lab/dinov2_imagenet1k_example.git
 ```
