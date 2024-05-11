@@ -73,7 +73,7 @@ Recall that the required folder structure for the DinoV2's provided ImageNet 1k 
 
 `/data/...`
 
-The root directory of the dataset should hold the following contents:
+The root directory of the dataset (i.e. in the example, I will assume it is `/data/`) should hold the following contents:
 
 - `<ROOT>/test/ILSVRC2012_test_00000001.JPEG`
 - `<ROOT>/test/[..]`
