@@ -213,7 +213,9 @@ Again, because their dataset.py (`dinov2/dinov2/data/datasets/image_net.py`) fil
 
 ![Change dataset](./docs/img/change_dataset.PNG)
 
-## 7. Fix the training YAML
+Note how you have to separate thousands with an underscore, so 34745 is 34_745
+
+## 6. Fix the training YAML
 
 The DinoV2 uses .yaml files to control configurations. We need to slightly adjust their simple yaml to run this example
 
@@ -239,9 +241,9 @@ Then, change the paths in the copy command below to the path to this repo and th
 cp /path/to/dinov2_imagenet1k_example/example.yaml /path/to/dinov2_repo/dinov2/dinov2/configs/train
 ```
 
-## 8. Run training
+## 7. Run training
 
-### 8.1 Fix their train script
+### 7.1 Fix their train script
 
 There is one change we need to make since we don't run on a SLURM environment:
 
@@ -251,7 +253,7 @@ Change `/dinov2/dinov2/train/train.py` to include the following line in the arg 
 
 `parser.add_argument("--local-rank", default=0, type=int, help="Variable for distributed computing.")`
 
-### 8.2 Install package
+### 7.2 Install package
 
 Then, we need to install the DinoV2 package so the modules can run properly
 
@@ -259,7 +261,7 @@ Then, we need to install the DinoV2 package so the modules can run properly
 pip install -e .
 ```
 
-### 8.3 Launch train script
+### 7.3 Launch train script
 
 Fix the path to the YAML file that you created in step 7. For example, if you have the Dinov2 repo in /home/user, it might be: `/home/user/dinov2/dinov2/configs/train/example.yaml`
 
