@@ -112,9 +112,13 @@ To get a small but working mini-ImageNet 1K dataset to work for this, the follow
 
 Download train and validation folders from here: https://www.kaggle.com/datasets/ifigotin/imagenetmini-1000/data (should be proper structure)
 
-It will download a .zip file, you should upload that to your server where you will run DinoV2 and upzip there
+It will download a .zip (`image-mini.zip`) file, you should upload that to your server and upzip there into the `/data/root` folder:
 
-You will then have `/data/train/...`, and `/data/val/...` ready
+```sh
+unzip /path/to/image-mini.zip -d /data/root
+```
+
+You will then have `/data/root/train/...`, and `/data/root/val/...` ready
 
 2. Example test images
 
