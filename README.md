@@ -144,7 +144,11 @@ And that should successfully complete the `/data/root/test` folder
 
 While labels aren't necessarily needed for SSL pre-training, I think due to the folder structure/dataset script, the code needs to know this.
 
-I provide the .txt file that will work as [labels.txt](./labels.txt), but document the steps below for full reproducibility. You can download the .txt file and move it to `/data/root/labels.txt` on your server and proceed to step 4. now.
+I provide the .txt file that will work as [labels.txt](./labels.txt), but document the steps below for full reproducibility. You can download the .txt file and copy/move it to `/data/root/labels.txt` on your server and proceed to step 4. now:
+
+```sh
+cp /path/to/labels.txt /data/root/
+```
 
 (Optional, provided for full reproducibility):
 
