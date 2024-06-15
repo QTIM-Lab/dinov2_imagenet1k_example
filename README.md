@@ -277,3 +277,11 @@ python -m torch.distributed.launch --nproc_per_node=1 dinov2/train/train.py --co
 Note you could play around with nproc_per_node and other variables if you want
 
 Let me know if you have any issues!
+
+## Update:
+
+If you want to run on single node in SLURM env, need to change dinov2/distributed/__init__.py to have:
+
+dist.init_process_group(backend="nccl", rank=0, world_size=1)
+
+Or it might hang
